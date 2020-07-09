@@ -40,6 +40,10 @@ def edit_task(task_id):
                            categories=all_categories)
 
 
+# @app.route('/update_task/<task_id>', methods=["POST"])
+# def update_task(task_id):
+
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=os.environ.get('PORT'),
