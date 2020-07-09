@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, request, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from os import path
-# from bson.objectid import Object
 if path.exists('env.py'):
     import env
 
@@ -51,6 +50,12 @@ def update_task(task_id):
         'due_date': request.form.get('due_date'),
         'is_urgent': request.form.get('is_urgent')
     })
+    return redirect(url_for('get_tasks'))
+
+
+@app.route('/delete_task/<task_id>')
+def delete_task(task_id):
+    mongo.db.tasks.remove({'_id': ObjectId(task_id)})
     return redirect(url_for('get_tasks'))
 
 
