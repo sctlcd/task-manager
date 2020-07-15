@@ -38,7 +38,7 @@ def edit_task(task_id):
     return render_template('edittask.html', task=the_task,
                            categories=all_categories)
 
-
+# write data change into the db
 @app.route('/update_task/<task_id>', methods=["POST"])
 def update_task(task_id):
     tasks = mongo.db.tasks
@@ -64,6 +64,20 @@ def delete_task(task_id):
 @app.route('/get_categories')
 def get_categories():
     return render_template('categories.html', categories=mongo.db.categories.find())
+
+
+@app.route('/edit_category/<category_id>')
+def edit_category(category_id):
+    return render_template('editcategory.html', category=mongo.db.categories.find_one({'id': ObjectId(category_id)}))
+
+
+@app.route('/update_category/<category_id>', methods=["POST"])
+def update_category(category_id):
+    mongo.db.categories.update(
+        {'_id': ObjectId(category_id)},
+        {'category_name': request.form.get('category_name')})
+    return redirect(url_for('get_categories'))
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
